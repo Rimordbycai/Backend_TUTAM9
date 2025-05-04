@@ -13,10 +13,10 @@ exports.createTodo = async (title, description) => {
   return result.rows[0];
 };
 
-exports.updateTodo = async (id, title, description) => {
+exports.updateTodo = async (id, title, description, dueDate) => {
   const result = await pool.query(
-    'UPDATE todos SET title = $1, description = $2 WHERE id = $3 RETURNING *',
-    [title, description, id]
+    'UPDATE todos SET title = $1, description = $2, due_date = $3 WHERE id = $4 RETURNING *',
+    [title, description, dueDate, id]
   );
   return result.rows[0];
 };

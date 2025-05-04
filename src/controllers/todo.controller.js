@@ -28,21 +28,19 @@ exports.createTodo = async (req, res) => {
 
 exports.updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, description } = req.body;
-
-  if (!title) {
-    return res.status(400).json({ error: "Title is required" });
+  const { title, description, dueDate } = req.body;
+  if (!title || !description) {
+    return res.status(400).json({ error: 'Title and description are required' });
   }
-
   try {
-    const updatedTodo = await todoRepository.updateTodo(id, title, description);
+    const updatedTodo = await todoRepository.updateTodo(id, title, description, dueDate);
     if (!updatedTodo) {
-      return res.status(404).json({ error: "Todo not found" });
+      return res.status(404).json({ error: 'Todo not found' });
     }
     res.json(updatedTodo);
   } catch (error) {
-    console.error("Error updating todo:", error);
-    res.status(500).json({ error: "Failed to update todo" });
+    console.error('Error updating todo:', error);
+    res.status(500).json({ error: 'Failed to update todo' });
   }
 };
 
